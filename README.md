@@ -1,8 +1,11 @@
 # oxiane-formation
 formation GitOps chez oxiane
 
-## Exercice 5:
+## TP1 Exercice 5:
 modifying files in local
 
-## Exercice 6: 
+## TP1 Exercice 6: 
 modifiying files at distant
+
+## TP2 Exercice 1:
+Added branche-a
