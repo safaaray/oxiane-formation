@@ -29,10 +29,6 @@ jobs:
           java-version: '17'
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Build image
-        run: ./mvnw spring-boot:build-image -DskipTests
       
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -41,15 +37,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Get artifact id and version
+      - name: Build and push image
         id: project-info
         run: |
+          ./mvnw spring-boot:build-image -DskipTests
           JAVA_HOME_TEMP=$(which java)
-          echo "artifact-id=$(JAVA_HOME=${JAVA_HOME_TEMP%/bin/java} ./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_OUTPUT
-          echo "version=$(JAVA_HOME=${JAVA_HOME_TEMP%/bin/java} ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
-          
-      - name: Push image to Registry
-        run: |
-          tag_suffix=${{ steps.project-info.outputs.artifact-id }}:${{ steps.project-info.outputs.version }}
+          artifact-id=$(JAVA_HOME=${JAVA_HOME_TEMP%/bin/java} ./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          version=$(JAVA_HOME=${JAVA_HOME_TEMP%/bin/java} ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+          tag_suffix="${artifact-id}:${version}"
           tag="ghcr.io/${{ github.repository_owner }}/$tag_suffix"
+          docker tag $tag_suffix $tag
           docker push $tag
