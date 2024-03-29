@@ -44,7 +44,7 @@ jobs:
           docker image ls
           artifact_id="$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
           version="$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
-          tag_suffix="${artifact-id}:${version}"
+          tag_suffix="${artifact_id}:${version}"
           tag="ghcr.io/${{ github.repository_owner }}/$tag_suffix"
           docker tag $tag_suffix $tag
           docker push $tag
