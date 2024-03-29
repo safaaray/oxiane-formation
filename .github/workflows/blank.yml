@@ -50,6 +50,6 @@ jobs:
           
       - name: Push image to Registry
         run: |
-          tag_suffix=${{ steps.outputs.artifact-id }}:${{ steps.outputs.version }}
+          tag_suffix=${{ steps.project-info.outputs.artifact-id }}:${{ steps.project-info.outputs.version }}
           tag="ghcr.io/${{ github.repository_owner }}/$tag_suffix"
           docker push $tag
