@@ -44,7 +44,7 @@ jobs:
           echo "version=$(JAVA_HOME=${JAVA_HOME_TEMP%/bin/java} ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
           
       - name: Push image to Registry
-        run:|
+        run: |
           tag_suffix=${{ steps.outputs.artifact-id }}:${{ steps.outputs.version }}
           tag="ghcr.io/safaaray/$tag_suffix"
           docker push $tag
