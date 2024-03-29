@@ -42,7 +42,7 @@ jobs:
         run: |
           ./mvnw spring-boot:build-image -DskipTests
           docker image ls
-          artifact-id="$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
+          artifact_id="$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)"
           version="$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
           tag_suffix="${artifact-id}:${version}"
           tag="ghcr.io/${{ github.repository_owner }}/$tag_suffix"
