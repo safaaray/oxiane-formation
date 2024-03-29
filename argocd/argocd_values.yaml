@@ -1,0 +1,28 @@
+dex:
+  enabled: false
+
+redis-ha:
+  enabled: false
+
+repoServer:
+  replicas: 1
+
+applicationSet:
+  replicaCount: 1
+
+controller:
+  replicas: 1
+
+server:
+  replicas: 1
+  ingress:
+    enabled: true
+    class: "nginx"
+    paths:
+      - "/argocd"
+  extraArgs:
+    - --insecure
+    - --rootpath
+    - /argocd
+  config:
+    exec.enabled: "true"
